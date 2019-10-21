@@ -123,14 +123,14 @@ linkDataArray: [
 ]
 ```
 
-#### Optional - modelData
+#### Optional - modelData (ReactDiagram and ReactPalette only)
 Specifies a modelData object for the Diagram's model.
 
-#### skipsDiagramUpdate
+#### skipsDiagramUpdate (ReactDiagram only)
 Specifies whether the component should skip updating, often set when updating state from a GoJS model change.
 This flag is checked during shouldComponentUpdate.
 
-#### onModelChange
+#### onModelChange (ReactDiagram only)
 Specifies a function to be called when a GoJS transaction has completed.
 This function will typically be responsible for updating React/Redux state.
 
