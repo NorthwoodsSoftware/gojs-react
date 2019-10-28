@@ -3,7 +3,9 @@
 ### By Northwoods Software for [GoJS 2.1 Beta](https://gojs.net/beta)
 
 This project provides React components for [GoJS](https://gojs.net/latest/index.html) Diagrams, Palettes, and Overviews to simplify usage of GoJS within a React application.
-See the [gojs-react-basic project](https://github.com/NorthwoodsSoftware/gojs-react-basic) for example usage.
+See the [gojs-react-basic project](https://github.com/NorthwoodsSoftware/gojs-react-basic) for example usage and the
+[Intro page on using GoJS with React](https://gojs.net/beta/intro/react.html) for more information.
+Some more detail on the implementation of these components can be found [here](https://github.com/NorthwoodsSoftware/gojs-react/IMPLEMENTATION.md).
 
 ## Installation
 
@@ -25,6 +27,8 @@ npm install --save gojs-react
 
 This package provides three components - ReactDiagram, ReactPalette, and ReactOverview - corresponding to the related GoJS classes.
 The [gojs-react-basic repository](https://github.com/NorthwoodsSoftware/gojs-react-basic) provides example usage.
+Feel free to use these components as examples for setting up your own React components for GoJS.
+If you'd like to do so, we suggest reading more about the implementation of these components [here](https://github.com/NorthwoodsSoftware/gojs-react/IMPLEMENTATION.md).
 
 ```tsx
 <ReactDiagram
@@ -136,7 +140,6 @@ This function will typically be responsible for updating React/Redux state.
 
 ```js
 function handleModelChange(data) {
-  if (data === null) return;
   const insertedNodeKeys = data.insertedNodeKeys;
   const modifiedNodeData = data.modifiedNodeData;
   const removedNodeKeys = data.removedNodeKeys;
