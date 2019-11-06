@@ -7,10 +7,10 @@ The componentDidMount method is responsible for initializing the diagram and any
 It is important that the component be mounted because GoJS requires a DIV to render the diagram canvas.
 
 This is where initial data will be merged into the model. The merge will make a shallow copy of data, so if you're using data with nesting,
-you will probably want to clone your arrays before passing them, maybe using [Model.cloneDeep](https://gojs.net/beta/api/symbols/Model.html#cloneDeep).
+you will probably want to clone your arrays before passing them, maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep).
 
 It's important to keep React state up-to-date with any changes that have taken place in the GoJS model.
-[Model.toIncrementalData](https://gojs.net/beta/api/symbols/Model.html#toIncrementalData) can be used within a model change listener
+[Model.toIncrementalData](https://gojs.net/latest/api/symbols/Model.html#toIncrementalData) can be used within a model change listener
 in a similar manner to [Model.toIncrementalJson](https://gojs.net/latest/api/symbols/Model.html#toIncrementalJson),
 but contains deep copies of model objects rather than stringified JSON. This makes it easy to use to update React state.
 
@@ -54,11 +54,11 @@ public componentDidMount() {
 The componentDidUpdate method is where any changes to React state are merged into the GoJS model.
 
 When state is updated in React, it is important to keep the GoJS model up-to-date.
-The methods used to do this are [Model.mergeNodeDataArray](https://gojs.net/beta/api/symbols/Model.html#mergeNodeDataArray) and
-[GraphLinksModel.mergeLinkDataArray](https://gojs.net/beta/api/symbols/GraphLinksModel.html#mergeLinkDataArray).
+The methods used to do this are [Model.mergeNodeDataArray](https://gojs.net/latest/api/symbols/Model.html#mergeNodeDataArray) and
+[GraphLinksModel.mergeLinkDataArray](https://gojs.net/latest/api/symbols/GraphLinksModel.html#mergeLinkDataArray).
 These methods take arrays of node or link data, iterate over those arrays, and merge any differences into the model.
 As with the initial data merge during mount, you will probably want to clone your arrays before passing them,
-maybe using [Model.cloneDeep](https://gojs.net/beta/api/symbols/Model.html#cloneDeep) if you're using data with nesting.
+maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep) if you're using data with nesting.
 
 ```ts
 /**

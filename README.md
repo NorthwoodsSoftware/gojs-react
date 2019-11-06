@@ -1,10 +1,10 @@
 # gojs-react
 
-### By Northwoods Software for [GoJS 2.1 Beta](https://gojs.net/beta)
+### By Northwoods Software for [GoJS 2.1](https://gojs.net)
 
 This project provides React components for [GoJS](https://gojs.net/latest/index.html) Diagrams, Palettes, and Overviews to simplify usage of GoJS within a React application.
 See the [gojs-react-basic project](https://github.com/NorthwoodsSoftware/gojs-react-basic) for example usage and the
-[Intro page on using GoJS with React](https://gojs.net/beta/intro/react.html) for more information.
+[Intro page on using GoJS with React](https://gojs.net/latest/intro/react.html) for more information.
 Some more detail on the implementation of these components can be found [here](https://github.com/NorthwoodsSoftware/gojs-react/IMPLEMENTATION.md).
 
 ## Installation

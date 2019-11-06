@@ -1,6 +1,6 @@
 {
   "name": "gojs-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A set of React components to manage GoJS Diagrams, Palettes, and Overviews",
   "main": "lib/index.js",
   "module": "lib/esm/gojsreact.js",
@@ -24,20 +24,20 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/react": "^16.9.2",
+    "@types/react": "^16.9.11",
     "fs-extra": "^8.1.0",
-    "gojs": "^2.1.0-beta1",
+    "gojs": "^2.1.0",
     "npm-run-all": "^4.1.5",
-    "react": "^16.9.0",
+    "react": "^16.11.0",
     "rimraf": "^3.0.0",
-    "rollup": "^1.25.1",
+    "rollup": "^1.26.3",
     "rollup-plugin-banner": "^0.2.1",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
-    "typescript": "^3.6.2"
+    "typescript": "^3.7.2"
   },
   "peerDependencies": {
-    "gojs": ">=2.1.0-beta1",
+    "gojs": ">=2.1.0",
     "react": ">=16.0.0"
   },
   "files": [
