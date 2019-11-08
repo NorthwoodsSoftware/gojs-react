@@ -5,7 +5,7 @@
 This project provides React components for [GoJS](https://gojs.net/latest/index.html) Diagrams, Palettes, and Overviews to simplify usage of GoJS within a React application.
 See the [gojs-react-basic project](https://github.com/NorthwoodsSoftware/gojs-react-basic) for example usage and the
 [Intro page on using GoJS with React](https://gojs.net/latest/intro/react.html) for more information.
-Some more detail on the implementation of these components can be found [here](https://github.com/NorthwoodsSoftware/gojs-react/IMPLEMENTATION.md).
+Some more detail on the implementation of these components can be found [here](https://github.com/NorthwoodsSoftware/gojs-react/blob/master/IMPLEMENTATION.md).
 
 ## Installation
 
