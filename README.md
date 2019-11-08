@@ -28,7 +28,7 @@ npm install --save gojs-react
 This package provides three components - ReactDiagram, ReactPalette, and ReactOverview - corresponding to the related GoJS classes.
 The [gojs-react-basic repository](https://github.com/NorthwoodsSoftware/gojs-react-basic) provides example usage.
 Feel free to use these components as examples for setting up your own React components for GoJS.
-If you'd like to do so, we suggest reading more about the implementation of these components [here](https://github.com/NorthwoodsSoftware/gojs-react/IMPLEMENTATION.md).
+If you'd like to do so, we suggest reading more about the implementation of these components [here](https://github.com/NorthwoodsSoftware/gojs-react/blob/master/IMPLEMENTATION.md).
 
 ```tsx
 <ReactDiagram

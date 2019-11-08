@@ -1,6 +1,6 @@
 {
   "name": "gojs-react",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A set of React components to manage GoJS Diagrams, Palettes, and Overviews",
   "main": "lib/index.js",
   "module": "lib/esm/gojsreact.js",
@@ -12,6 +12,7 @@
     "clean:lib": "rimraf lib",
     "bundle": "rollup --config",
     "entry": "node ./scripts/makeEntry.js",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
