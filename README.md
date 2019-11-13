@@ -58,7 +58,7 @@ If you'd like to do so, we suggest reading more about the implementation of thes
 ### Component Props
 
 #### initDiagram/initPalette/initOverview
-Specifies a function that is reponsible for initializaing and returning
+Specifies a function that is reponsible for initializing and returning
 a GoJS Diagram, Palette, or Overview. In the case of an Overview, this
 is an optional property and when not provided, an Overview with default
 properties and centered content will be created.
