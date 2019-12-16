@@ -69,7 +69,8 @@ function initDiagram() {
 
   const diagram = $(go.Diagram,
     {
-      'undoManager.isEnabled': true,
+      'undoManager.isEnabled': true,  // must be set to allow for model change listening
+      // 'undoManager.maxHistoryLength': 0,  // uncomment disable undo/redo functionality
       model: $(go.GraphLinksModel, {
         linkKeyProperty: 'key'  // this should always be set when using a GraphLinksModel
       })
