@@ -59,9 +59,12 @@ If you'd like to do so, we suggest reading more about the implementation of thes
 
 #### initDiagram/initPalette/initOverview
 Specifies a function that is reponsible for initializing and returning
-a GoJS Diagram, Palette, or Overview. In the case of an Overview, this
-is an optional property and when not provided, an Overview with default
-properties and centered content will be created.
+a GoJS Diagram, Palette, or Overview. This is where the model and templates
+should be instantiated. Node and link data does not need to be set up here,
+as it will be passed in as a separate prop.
+
+In the case of an Overview, this is an optional property and when not provided,
+an Overview with default properties and centered content will be created.
 
 ```js
 function initDiagram() {
@@ -116,7 +119,8 @@ nodeDataArray: [
 ```
 
 #### Optional - linkDataArray (ReactDiagram and ReactPalette only)
-Specifies the array of links for the Diagram's model.
+Specifies the array of links for the Diagram's model, only needed when using a GraphLinksModel.
+Make sure to set the GraphLinksModel's linkKeyProperty in the init function.
 
 ```js
 linkDataArray: [
@@ -129,7 +133,9 @@ linkDataArray: [
 ```
 
 #### Optional - modelData (ReactDiagram and ReactPalette only)
-Specifies a modelData object for the Diagram's model.
+Specifies a modelData object for the Diagram's model, only necessary when using properties
+that will be shared by the model as a whole.
+See [Model.modelData](https://gojs.net/latest/api/symbols/Model.html#modelData).
 
 #### skipsDiagramUpdate (ReactDiagram only)
 Specifies whether the component should skip updating, often set when updating state from a GoJS model change.
