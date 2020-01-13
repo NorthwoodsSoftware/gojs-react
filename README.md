@@ -60,8 +60,8 @@ If you'd like to do so, we suggest reading more about the implementation of thes
 #### initDiagram/initPalette/initOverview
 Specifies a function that is reponsible for initializing and returning
 a GoJS Diagram, Palette, or Overview. This is where the model and templates
-should be instantiated. Node and link data does not need to be set up here,
-as it will be passed in as a separate prop.
+should be instantiated. Node and link data do not need to be set up here,
+as they will be passed in as separate props.
 
 In the case of an Overview, this is an optional property and when not provided,
 an Overview with default properties and centered content will be created.
@@ -119,8 +119,9 @@ nodeDataArray: [
 ```
 
 #### Optional - linkDataArray (ReactDiagram and ReactPalette only)
-Specifies the array of links for the Diagram's model, only needed when using a GraphLinksModel.
-Make sure to set the GraphLinksModel's linkKeyProperty in the init function.
+Specifies the array of links for the Diagram's model, only needed when using a GraphLinksModel,
+not for Models or TreeModels. If using a GraphLinksModel, make sure to set the GraphLinksModel's
+linkKeyProperty in the init function.
 
 ```js
 linkDataArray: [
