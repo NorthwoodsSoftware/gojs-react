@@ -8,6 +8,7 @@ It is important that the component be mounted because GoJS requires a DIV to ren
 
 This is where initial data will be merged into the model. The merge will make a shallow copy of data, so if you're using data with nesting,
 you will probably want to clone your arrays before passing them, maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep).
+Note that this will cause the change handler to fire, as there could be side effects during initialization.
 
 It's important to keep React state up-to-date with any changes that have taken place in the GoJS model.
 [Model.toIncrementalData](https://gojs.net/latest/api/symbols/Model.html#toIncrementalData) can be used within a model change listener
@@ -23,6 +24,16 @@ public componentDidMount() {
   const diagram = this.props.initDiagram();
 
   diagram.div = this.divRef.current;
+
+  // initialize data change listener
+  this.modelChangedListener = (e: go.ChangedEvent) => {
+    if (e.isTransactionFinished) {
+      const dataChanges = e.model!.toIncrementalData(e);
+      if (dataChanges !== null) this.props.onModelChange(dataChanges);
+    }
+  };
+  diagram.addModelChangedListener(this.modelChangedListener);
+
   // delay initialization of the diagram so all initial model data is merged before any animations/layouts
   diagram.delayInitialization(() => {
     const model = diagram.model;
@@ -34,18 +45,8 @@ public componentDidMount() {
       if (this.props.modelData !== undefined) {
         m.assignAllDataProperties(m.modelData, this.props.modelData);
       }
-    }, null);
+    }, 'gojs-react init merge');
   });
-
-
-  // initialize listeners
-  this.modelChangedListener = (e: go.ChangedEvent) => {
-    if (e.isTransactionFinished) {
-      const dataChanges = e.model!.toIncrementalData(e);
-      if (dataChanges !== null) this.props.onModelChange(dataChanges);
-    }
-  };
-  diagram.addModelChangedListener(this.modelChangedListener);
 }
 ```
 
@@ -63,7 +64,6 @@ maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#clo
 ```ts
 /**
  * When the component updates, merge all data changes into the GoJS model to ensure everything stays in sync.
- * The model change listener is removed during this update since the data changes are already known by the parent.
  * @param prevProps
  * @param prevState
  */
@@ -71,8 +71,6 @@ public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
   const diagram = this.getDiagram();
   if (diagram !== null) {
     const model = diagram.model;
-    // don't need model change listener while performing known data updates
-    if (this.modelChangedListener !== null) model.removeChangedListener(this.modelChangedListener);
     model.startTransaction('update data');
     model.mergeNodeDataArray(model.cloneDeep(this.props.nodeDataArray));
     if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
@@ -82,7 +80,6 @@ public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
       model.assignAllDataProperties(model.modelData, this.props.modelData);
     }
     model.commitTransaction('update data');
-    if (this.modelChangedListener !== null) model.addChangedListener(this.modelChangedListener);
   }
 }
 ```

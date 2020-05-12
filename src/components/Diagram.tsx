@@ -52,6 +52,16 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     const diagram = this.props.initDiagram();
 
     diagram.div = this.divRef.current;
+
+    // initialize data change listener
+    this.modelChangedListener = (e: go.ChangedEvent) => {
+      if (e.isTransactionFinished) {
+        const dataChanges = e.model!.toIncrementalData(e);
+        if (dataChanges !== null) this.props.onModelChange(dataChanges);
+      }
+    };
+    diagram.addModelChangedListener(this.modelChangedListener);
+
     diagram.delayInitialization(() => {
       const model = diagram.model;
       model.commit((m: go.Model) => {
@@ -62,18 +72,8 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
         if (this.props.modelData !== undefined) {
           m.assignAllDataProperties(m.modelData, this.props.modelData);
         }
-      }, null);
+      }, 'gojs-react init merge');
     });
-
-
-    // initialize listeners
-    this.modelChangedListener = (e: go.ChangedEvent) => {
-      if (e.isTransactionFinished) {
-        const dataChanges = e.model!.toIncrementalData(e);
-        if (dataChanges !== null) this.props.onModelChange(dataChanges);
-      }
-    };
-    diagram.addModelChangedListener(this.modelChangedListener);
   }
 
   /**
@@ -109,7 +109,6 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
   /**
    * @internal
    * When the component updates, merge all data changes into the GoJS model to ensure everything stays in sync.
-   * The model change listener is removed during this update since the data changes are already known by the parent.
    * @param prevProps
    * @param prevState
    */
@@ -117,8 +116,6 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     const diagram = this.getDiagram();
     if (diagram !== null) {
       const model = diagram.model;
-      // don't need model change listener while performing known data updates
-      if (this.modelChangedListener !== null) model.removeChangedListener(this.modelChangedListener);
       model.startTransaction('update data');
       model.mergeNodeDataArray(model.cloneDeep(this.props.nodeDataArray));
       if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
@@ -128,7 +125,6 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
         model.assignAllDataProperties(model.modelData, this.props.modelData);
       }
       model.commitTransaction('update data');
-      if (this.modelChangedListener !== null) model.addChangedListener(this.modelChangedListener);
     }
   }
 

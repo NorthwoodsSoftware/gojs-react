@@ -146,6 +146,11 @@ This flag is checked during shouldComponentUpdate.
 Specifies a function to be called when a GoJS transaction has completed.
 This function will typically be responsible for updating React/Redux state.
 
+It is important that state updates made in this function include setting skipsDiagramUpdate to true since
+the changes are known by GoJS. It will fire even when a GoJS change originated from a state update, as there
+could be side effects that occur in GoJS. It's a good idea to properly filter out any unnecessary changes
+before updating state.
+
 ```js
 function handleModelChange(data) {
   const insertedNodeKeys = data.insertedNodeKeys;
