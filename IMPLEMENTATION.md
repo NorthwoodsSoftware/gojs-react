@@ -61,6 +61,8 @@ These methods take arrays of node or link data, iterate over those arrays, and m
 As with the initial data merge during mount, you will probably want to clone your arrays before passing them,
 maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep) if you're using data with nesting.
 
+_Properties should not be removed, but rather set to undefined if they are no longer needed; GoJS avoids destructive merging._
+
 ```ts
 /**
  * When the component updates, merge all data changes into the GoJS model to ensure everything stays in sync.

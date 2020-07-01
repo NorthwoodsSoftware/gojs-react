@@ -109,6 +109,8 @@ This should usually specify a width/height.
 #### nodeDataArray (ReactDiagram and ReactPalette only)
 Specifies the array of nodes for the Diagram's model.
 
+_Properties should not be removed when setting state, but rather set to undefined if they are no longer needed; GoJS avoids destructive merging._
+
 ```js
 nodeDataArray: [
   { key: 'Alpha', color: 'lightblue' },
@@ -122,6 +124,8 @@ nodeDataArray: [
 Specifies the array of links for the Diagram's model, only needed when using a GraphLinksModel,
 not for Models or TreeModels. If using a GraphLinksModel, make sure to set the GraphLinksModel's
 linkKeyProperty in the init function.
+
+_Properties should not be removed when setting state, but rather set to undefined if they are no longer needed; GoJS avoids destructive merging._
 
 ```js
 linkDataArray: [
@@ -139,7 +143,7 @@ that will be shared by the model as a whole.
 See [Model.modelData](https://gojs.net/latest/api/symbols/Model.html#modelData).
 
 #### skipsDiagramUpdate (ReactDiagram only)
-Specifies whether the component should skip updating, often set when updating state from a GoJS model change.
+Specifies whether the component should skip updating, often set to true when updating state from a GoJS model change.
 This flag is checked during shouldComponentUpdate.
 
 #### onModelChange (ReactDiagram only)
