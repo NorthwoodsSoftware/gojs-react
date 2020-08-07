@@ -6,9 +6,7 @@ gojs-react is implemented as a set of React Components with a few different life
 The componentDidMount method is responsible for initializing the diagram and any listeners.
 It is important that the component be mounted because GoJS requires a DIV to render the diagram canvas.
 
-This is where initial data will be merged into the model. The merge will make a shallow copy of data, so if you're using data with nesting,
-you will probably want to clone your arrays before passing them, maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep).
-Note that this will cause the change handler to fire, as there could be side effects during initialization.
+This is where initial data will be merged into the model. The merges will make deep copies of data using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep) to prevent GoJS from mutating React state. Note that this will cause the change handler to fire, as there could be side effects during initialization.
 
 It's important to keep React state up-to-date with any changes that have taken place in the GoJS model.
 [Model.toIncrementalData](https://gojs.net/latest/api/symbols/Model.html#toIncrementalData) can be used within a model change listener
@@ -38,9 +36,9 @@ public componentDidMount() {
   diagram.delayInitialization(() => {
     const model = diagram.model;
     model.commit((m: go.Model) => {
-      m.mergeNodeDataArray(m.cloneDeep(this.props.nodeDataArray));
+      m.mergeNodeDataArray(this.props.nodeDataArray);
       if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
-        m.mergeLinkDataArray(m.cloneDeep(this.props.linkDataArray));
+        m.mergeLinkDataArray(this.props.linkDataArray);
       }
       if (this.props.modelData !== undefined) {
         m.assignAllDataProperties(m.modelData, this.props.modelData);
@@ -58,8 +56,8 @@ When state is updated in React, it is important to keep the GoJS model up-to-dat
 The methods used to do this are [Model.mergeNodeDataArray](https://gojs.net/latest/api/symbols/Model.html#mergeNodeDataArray) and
 [GraphLinksModel.mergeLinkDataArray](https://gojs.net/latest/api/symbols/GraphLinksModel.html#mergeLinkDataArray).
 These methods take arrays of node or link data, iterate over those arrays, and merge any differences into the model.
-As with the initial data merge during mount, you will probably want to clone your arrays before passing them,
-maybe using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep) if you're using data with nesting.
+As with the initial data merge during mount, deep copies of new data will be made
+using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep).
 
 _Properties should not be removed, but rather set to undefined if they are no longer needed; GoJS avoids destructive merging._
 
@@ -74,9 +72,9 @@ public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
   if (diagram !== null) {
     const model = diagram.model;
     model.startTransaction('update data');
-    model.mergeNodeDataArray(model.cloneDeep(this.props.nodeDataArray));
+    model.mergeNodeDataArray(this.props.nodeDataArray);
     if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
-      model.mergeLinkDataArray(model.cloneDeep(this.props.linkDataArray));
+      model.mergeLinkDataArray(this.props.linkDataArray);
     }
     if (this.props.modelData !== undefined) {
       model.assignAllDataProperties(model.modelData, this.props.modelData);

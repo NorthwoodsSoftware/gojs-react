@@ -65,9 +65,9 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     diagram.delayInitialization(() => {
       const model = diagram.model;
       model.commit((m: go.Model) => {
-        m.mergeNodeDataArray(m.cloneDeep(this.props.nodeDataArray));
+        m.mergeNodeDataArray(this.props.nodeDataArray);
         if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
-          m.mergeLinkDataArray(m.cloneDeep(this.props.linkDataArray));
+          m.mergeLinkDataArray(this.props.linkDataArray);
         }
         if (this.props.modelData !== undefined) {
           m.assignAllDataProperties(m.modelData, this.props.modelData);
@@ -117,9 +117,9 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     if (diagram !== null) {
       const model = diagram.model;
       model.startTransaction('update data');
-      model.mergeNodeDataArray(model.cloneDeep(this.props.nodeDataArray));
+      model.mergeNodeDataArray(this.props.nodeDataArray);
       if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
-        model.mergeLinkDataArray(model.cloneDeep(this.props.linkDataArray));
+        model.mergeLinkDataArray(this.props.linkDataArray);
       }
       if (this.props.modelData !== undefined) {
         model.assignAllDataProperties(model.modelData, this.props.modelData);

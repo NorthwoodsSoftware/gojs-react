@@ -22,23 +22,23 @@
   "author": "Northwoods Software",
   "license": "See LICENSE.md file",
   "dependencies": {
-    "tslib": "^1.11.2"
+    "tslib": "^2.0.1"
   },
   "devDependencies": {
-    "@types/react": "^16.9.35",
-    "fs-extra": "^9.0.0",
-    "gojs": "^2.1.16",
+    "@types/react": "^16.9.44",
+    "fs-extra": "^9.0.1",
+    "gojs": "^2.1.22",
     "npm-run-all": "^4.1.5",
     "react": "^16.13.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.9.1",
+    "rollup": "^2.23.0",
     "rollup-plugin-banner": "^0.2.1",
-    "rollup-plugin-terser": "^5.3.0",
-    "rollup-plugin-typescript2": "^0.27.0",
-    "typescript": "^3.8.3"
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "gojs": ">=2.1.16",
+    "gojs": ">=2.1.22",
     "react": ">=16.0.0"
   },
   "files": [
