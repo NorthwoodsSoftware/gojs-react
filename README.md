@@ -146,7 +146,7 @@ See [Model.modelData](https://gojs.net/latest/api/symbols/Model.html#modelData).
 Specifies whether the component should skip updating, often set to true when updating state from a GoJS model change.
 This flag is checked during shouldComponentUpdate.
 
-#### onModelChange (ReactDiagram only)
+#### Optional - onModelChange (ReactDiagram only)
 Specifies a function to be called when a GoJS transaction has completed.
 This function will typically be responsible for updating React/Redux state.
 

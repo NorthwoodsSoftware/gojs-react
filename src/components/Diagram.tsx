@@ -15,7 +15,7 @@ export interface DiagramProps {
   linkDataArray?: Array<go.ObjectData>;
   modelData?: go.ObjectData;
   skipsDiagramUpdate: boolean;
-  onModelChange: (e: go.IncrementalData) => void;
+  onModelChange?: (e: go.IncrementalData) => void;
 }
 
 /**
@@ -55,8 +55,8 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
 
     // initialize data change listener
     this.modelChangedListener = (e: go.ChangedEvent) => {
-      if (e.isTransactionFinished) {
-        const dataChanges = e.model!.toIncrementalData(e);
+      if (e.isTransactionFinished && e.model && !e.model.isReadOnly && this.props.onModelChange) {
+        const dataChanges = e.model.toIncrementalData(e);
         if (dataChanges !== null) this.props.onModelChange(dataChanges);
       }
     };

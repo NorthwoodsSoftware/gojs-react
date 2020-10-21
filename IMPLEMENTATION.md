@@ -25,8 +25,8 @@ public componentDidMount() {
 
   // initialize data change listener
   this.modelChangedListener = (e: go.ChangedEvent) => {
-    if (e.isTransactionFinished) {
-      const dataChanges = e.model!.toIncrementalData(e);
+    if (e.isTransactionFinished && e.model && !e.model.isReadOnly && this.props.onModelChange) {
+      const dataChanges = e.model.toIncrementalData(e);
       if (dataChanges !== null) this.props.onModelChange(dataChanges);
     }
   };
