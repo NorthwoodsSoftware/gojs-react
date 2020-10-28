@@ -1,6 +1,6 @@
 ---
-name: Custom issue template
-about: Describe this issue template's purpose here.
+name: Issue with GoJS-React
+about: For issues related to this project
 title: ''
 labels: ''
 assignees: ''
