@@ -1,5 +1,8 @@
 # gojs-react Change Log
 
+## 1.0.10
+- Model data is now merged into the GoJS model before node and link data in case any ofModel bindings depend upon it.
+
 ## 1.0.9
 - [ReactDiagram.onModelChange](https://github.com/NorthwoodsSoftware/gojs-react#optional---onmodelchange-reactdiagram-only) is now an optional prop. If not provided, GoJS's [Model.toIncrementalData](https://gojs.net/latest/api/symbols/Model.html#toIncrementalData) will not be called.
 This is useful for read-only/immutable diagrams or diagrams where state changes need not be propagated back to the app.
