@@ -6,7 +6,8 @@ gojs-react is implemented as a set of React Components with a few different life
 The componentDidMount method is responsible for initializing the diagram and any listeners.
 It is important that the component be mounted because GoJS requires a DIV to render the diagram canvas.
 
-This is where initial data will be merged into the model. The merges will make deep copies of data using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep) to prevent GoJS from mutating React state. Note that this will cause the change handler to fire, as there could be side effects during initialization.
+This is where initial data will be merged into the model. The merges will make deep copies of data using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep) to prevent GoJS from mutating React state. Note that this will cause the change handler to fire, as there could be side effects during initialization. The call to [Diagram.delayInitialization](https://gojs.net/latest/api/symbols/Diagram.html#delayInitialization)
+allows saved link routes to be restored, so it's a good idea to have data ready before the component mounts.
 
 It's important to keep React state up-to-date with any changes that have taken place in the GoJS model.
 [Model.toIncrementalData](https://gojs.net/latest/api/symbols/Model.html#toIncrementalData) can be used within a model change listener
