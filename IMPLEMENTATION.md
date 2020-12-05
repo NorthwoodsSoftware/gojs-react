@@ -37,12 +37,12 @@ public componentDidMount() {
   diagram.delayInitialization(() => {
     const model = diagram.model;
     model.commit((m: go.Model) => {
+      if (this.props.modelData !== undefined) {
+        m.assignAllDataProperties(m.modelData, this.props.modelData);
+      }
       m.mergeNodeDataArray(this.props.nodeDataArray);
       if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
         m.mergeLinkDataArray(this.props.linkDataArray);
-      }
-      if (this.props.modelData !== undefined) {
-        m.assignAllDataProperties(m.modelData, this.props.modelData);
       }
     }, 'gojs-react init merge');
   });
@@ -73,12 +73,12 @@ public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
   if (diagram !== null) {
     const model = diagram.model;
     model.startTransaction('update data');
+    if (this.props.modelData !== undefined) {
+      model.assignAllDataProperties(model.modelData, this.props.modelData);
+    }
     model.mergeNodeDataArray(this.props.nodeDataArray);
     if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
       model.mergeLinkDataArray(this.props.linkDataArray);
-    }
-    if (this.props.modelData !== undefined) {
-      model.assignAllDataProperties(model.modelData, this.props.modelData);
     }
     model.commitTransaction('update data');
   }
