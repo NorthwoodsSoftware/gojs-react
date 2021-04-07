@@ -75,7 +75,7 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
 
   /**
    * @internal
-   * Determines whether component needs to update by checking the skips flag and doing a shallow compare on props.
+   * Determines whether component needs to update by doing a shallow compare on props.
    * @param nextProps
    * @param nextState
    */

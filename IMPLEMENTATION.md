@@ -14,6 +14,8 @@ It's important to keep React state up-to-date with any changes that have taken p
 in a similar manner to [Model.toIncrementalJson](https://gojs.net/latest/api/symbols/Model.html#toIncrementalJson),
 but contains deep copies of model objects rather than stringified JSON. This makes it easy to use to update React state.
 
+Because GoJS Palettes are read-only by default, the ReactPalette component doesn't add a change listener.
+
 ```ts
 /**
  * Initialize the diagram and add the required listeners.
@@ -88,6 +90,7 @@ public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
 #### shouldComponentUpdate
 The shouldComponentUpdate method is used to perform comparisons between the props passed in to the component.
 This is also where one can check the skipsDiagramUpdate prop to prevent known updates.
+Because GoJS Palettes are read-only by default, the skipsDiagramUpdate check is not present on ReactPalette.
 
 ```ts
 /**

@@ -144,7 +144,8 @@ See [Model.modelData](https://gojs.net/latest/api/symbols/Model.html#modelData).
 
 #### skipsDiagramUpdate (ReactDiagram only)
 Specifies whether the component should skip updating, often set to true when updating state from a GoJS model change.
-This flag is checked during shouldComponentUpdate.
+This flag is checked during shouldComponentUpdate. Because GoJS Palettes are read-only by default,
+this prop is not present on ReactPalette.
 
 #### Optional - onModelChange (ReactDiagram only)
 Specifies a function to be called when a GoJS transaction has completed.
@@ -154,6 +155,11 @@ It is important that state updates made in this function include setting skipsDi
 the changes are known by GoJS. It will fire even when a GoJS change originated from a state update, as there
 could be side effects that occur in GoJS. It's a good idea to properly filter out any unnecessary changes
 before updating state.
+
+Because GoJS Palettes are read-only by default, this prop is not present on ReactPalette.
+Although there won't be user-driven changes to a Palette's model due to the read-only nature of Palettes,
+changes to the nodeDataArray, linkDataArray, or modelData props described above
+allow for a Palette's model to be changed, if necessary.
 
 ```js
 function handleModelChange(data) {
