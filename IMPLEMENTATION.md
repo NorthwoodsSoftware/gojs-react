@@ -37,24 +37,12 @@ public componentDidMount() {
 
   // delay initialization of the diagram so all initial model data is merged before any animations/layouts
   diagram.delayInitialization(() => {
-    const model = diagram.model;
-    model.commit((m: go.Model) => {
-      if (this.props.modelData !== undefined) {
-        m.assignAllDataProperties(m.modelData, this.props.modelData);
-      }
-      m.mergeNodeDataArray(this.props.nodeDataArray);
-      if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
-        m.mergeLinkDataArray(this.props.linkDataArray);
-      }
-    }, 'gojs-react init merge');
+    this.mergeData(diagram, true);
   });
 }
 ```
 
 ### Updating the GoJS Model based on React state changes
-#### componentDidUpdate
-The componentDidUpdate method is where any changes to React state are merged into the GoJS model.
-
 When state is updated in React, it is important to keep the GoJS model up-to-date.
 The methods used to do this are [Model.mergeNodeDataArray](https://gojs.net/latest/api/symbols/Model.html#mergeNodeDataArray) and
 [GraphLinksModel.mergeLinkDataArray](https://gojs.net/latest/api/symbols/GraphLinksModel.html#mergeLinkDataArray).
@@ -63,6 +51,9 @@ As with the initial data merge during mount, deep copies of new data will be mad
 using [Model.cloneDeep](https://gojs.net/latest/api/symbols/Model.html#cloneDeep).
 
 _Properties should not be removed, but rather set to undefined if they are no longer needed; GoJS avoids destructive merging._
+
+#### componentDidUpdate
+The componentDidUpdate method calls mergeData where any changes to React state are merged into the GoJS model.
 
 ```ts
 /**
@@ -73,16 +64,15 @@ _Properties should not be removed, but rather set to undefined if they are no lo
 public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
   const diagram = this.getDiagram();
   if (diagram !== null) {
-    const model = diagram.model;
-    model.startTransaction('update data');
-    if (this.props.modelData !== undefined) {
-      model.assignAllDataProperties(model.modelData, this.props.modelData);
+    // if clear was just called, treat this as initial
+    if (this.wasCleared) {
+      diagram.delayInitialization(() => {
+        this.mergeData(diagram, true);
+        this.wasCleared = false;
+      });
+    } else {
+      this.mergeData(diagram, false);
     }
-    model.mergeNodeDataArray(this.props.nodeDataArray);
-    if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
-      model.mergeLinkDataArray(this.props.linkDataArray);
-    }
-    model.commitTransaction('update data');
   }
 }
 ```
@@ -105,6 +95,24 @@ public shouldComponentUpdate(nextProps: DiagramProps, nextState: any) {
       nextProps.linkDataArray === this.props.linkDataArray &&
       nextProps.modelData === this.props.modelData) return false;
   return true;
+}
+```
+
+#### mergeData
+The mergeData method is where any changes to React state are merged into the GoJS model. It is called by componentDidMount and componentDidUpdate.
+
+```ts
+private mergeData(diagram: go.Diagram, isInit: boolean) {
+  const model = diagram.model;
+  model.commit((m: go.Model) => {
+    if (this.props.modelData !== undefined) {
+      m.assignAllDataProperties(m.modelData, this.props.modelData);
+    }
+    m.mergeNodeDataArray(this.props.nodeDataArray);
+    if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
+      m.mergeLinkDataArray(this.props.linkDataArray);
+    }
+  }, isInit ? null : 'merge data');
 }
 ```
 

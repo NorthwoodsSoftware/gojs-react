@@ -1,5 +1,10 @@
 # gojs-react Change Log
 
+## 1.1.0
+- [ReactDiagram.skipsDiagramUpdate](https://github.com/NorthwoodsSoftware/gojs-react#optional---skipsdiagramupdate-reactdiagram-only) is now an optional prop.
+We still encourage using it in most cases.
+- Added [clear](https://github.com/NorthwoodsSoftware/gojs-react#clear-reactdiagram-and-reactpalette-only) method to allow clearing of the diagram and treating the next state update as a Diagram reinitialization.
+
 ## 1.0.10
 - Model data is now merged into the GoJS model before node and link data in case any ofModel bindings depend upon it.
 
@@ -15,5 +20,5 @@ new data as necessary.
 - The GoJS model change listener is now active during model initialization and any merges of data.
 This means all changes that take place in GoJS - including side effects like laying out newly added nodes -
 will call the [onModelChange](https://github.com/NorthwoodsSoftware/gojs-react#optional---onmodelchange-reactdiagram-only) handler.
-Make sure to set [skipsDiagramUpdate](https://github.com/NorthwoodsSoftware/gojs-react#skipsdiagramupdate-reactdiagram-only)
+Make sure to set [skipsDiagramUpdate](https://github.com/NorthwoodsSoftware/gojs-react#optional---skipsdiagramupdate-reactdiagram-only)
 to true when making state updates in that handler.

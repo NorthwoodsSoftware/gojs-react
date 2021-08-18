@@ -24,6 +24,8 @@ export interface PaletteProps {
 export class ReactPalette extends React.Component<PaletteProps, {}> {
   /** @internal */
   private divRef: React.RefObject<HTMLDivElement>;
+  /** @internal */
+  private wasCleared: boolean = false;
 
   /** @internal */
   constructor(props: PaletteProps) {
@@ -36,7 +38,18 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
    */
   public getPalette(): go.Palette | null {
     if (this.divRef.current === null) return null;
-    return go.Diagram.fromDiv(this.divRef.current);
+    return go.Diagram.fromDiv(this.divRef.current) as go.Palette;
+  }
+
+  /**
+   * Clears the palette and allows the next update to be treated as an initial load of the model.
+   */
+  public clear(): void {
+    const palette = this.getPalette();
+    if (palette !== null) {
+      palette.clear();
+      this.wasCleared = true;
+    }
   }
 
   /**
@@ -49,16 +62,7 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
 
     palette.div = this.divRef.current;
     palette.delayInitialization(() => {
-      const model = palette.model;
-      model.commit((m: go.Model) => {
-        if (this.props.modelData !== undefined) {
-          m.assignAllDataProperties(m.modelData, this.props.modelData);
-        }
-        m.mergeNodeDataArray(this.props.nodeDataArray);
-        if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
-          m.mergeLinkDataArray(this.props.linkDataArray);
-        }
-      }, null);
+      this.mergeData(palette, true);
     });
   }
 
@@ -96,17 +100,29 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
   public componentDidUpdate(prevProps: PaletteProps, prevState: any) {
     const palette = this.getPalette();
     if (palette !== null) {
-      const model = palette.model;
-      model.startTransaction('update data');
-      if (this.props.modelData !== undefined) {
-        model.assignAllDataProperties(model.modelData, this.props.modelData);
+      // if clear was just called, treat this as initial
+      if (this.wasCleared) {
+        palette.delayInitialization(() => {
+          this.mergeData(palette, true);
+          this.wasCleared = false;
+        });
+      } else {
+        this.mergeData(palette, false);
       }
-      model.mergeNodeDataArray(this.props.nodeDataArray);
-      if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
-        model.mergeLinkDataArray(this.props.linkDataArray);
-      }
-      model.commitTransaction('update data');
     }
+  }
+
+  private mergeData(diagram: go.Diagram, isInit: boolean) {
+    const model = diagram.model;
+    model.commit((m: go.Model) => {
+      if (this.props.modelData !== undefined) {
+        m.assignAllDataProperties(m.modelData, this.props.modelData);
+      }
+      m.mergeNodeDataArray(this.props.nodeDataArray);
+      if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
+        m.mergeLinkDataArray(this.props.linkDataArray);
+      }
+    }, isInit ? null : 'merge data');
   }
 
   /** @internal */

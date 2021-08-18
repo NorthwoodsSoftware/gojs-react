@@ -14,7 +14,7 @@ export interface DiagramProps {
   nodeDataArray: Array<go.ObjectData>;
   linkDataArray?: Array<go.ObjectData>;
   modelData?: go.ObjectData;
-  skipsDiagramUpdate: boolean;
+  skipsDiagramUpdate?: boolean;
   onModelChange?: (e: go.IncrementalData) => void;
 }
 
@@ -26,6 +26,8 @@ export interface DiagramProps {
 export class ReactDiagram extends React.Component<DiagramProps, {}> {
   /** @internal */
   private divRef: React.RefObject<HTMLDivElement>;
+  /** @internal */
+  private wasCleared: boolean = false;
   /** @internal */
   private modelChangedListener: ((e: go.ChangedEvent) => void) | null = null;
 
@@ -41,6 +43,17 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
   public getDiagram(): go.Diagram | null {
     if (this.divRef.current === null) return null;
     return go.Diagram.fromDiv(this.divRef.current);
+  }
+
+  /**
+   * Clears the diagram and allows the next update to be treated as an initial load of the model.
+   */
+  public clear(): void {
+    const diagram = this.getDiagram();
+    if (diagram !== null) {
+      diagram.clear();
+      this.wasCleared = true;
+    }
   }
 
   /**
@@ -63,16 +76,7 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     diagram.addModelChangedListener(this.modelChangedListener);
 
     diagram.delayInitialization(() => {
-      const model = diagram.model;
-      model.commit((m: go.Model) => {
-        if (this.props.modelData !== undefined) {
-          m.assignAllDataProperties(m.modelData, this.props.modelData);
-        }
-        m.mergeNodeDataArray(this.props.nodeDataArray);
-        if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
-          m.mergeLinkDataArray(this.props.linkDataArray);
-        }
-      }, 'gojs-react init merge');
+      this.mergeData(diagram, true);
     });
   }
 
@@ -115,17 +119,29 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
   public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
     const diagram = this.getDiagram();
     if (diagram !== null) {
-      const model = diagram.model;
-      model.startTransaction('update data');
-      if (this.props.modelData !== undefined) {
-        model.assignAllDataProperties(model.modelData, this.props.modelData);
+      // if clear was just called, treat this as initial
+      if (this.wasCleared) {
+        diagram.delayInitialization(() => {
+          this.mergeData(diagram, true);
+          this.wasCleared = false;
+        });
+      } else {
+        this.mergeData(diagram, false);
       }
-      model.mergeNodeDataArray(this.props.nodeDataArray);
-      if (this.props.linkDataArray !== undefined && model instanceof go.GraphLinksModel) {
-        model.mergeLinkDataArray(this.props.linkDataArray);
-      }
-      model.commitTransaction('update data');
     }
+  }
+
+  private mergeData(diagram: go.Diagram, isInit: boolean) {
+    const model = diagram.model;
+    model.commit((m: go.Model) => {
+      if (this.props.modelData !== undefined) {
+        m.assignAllDataProperties(m.modelData, this.props.modelData);
+      }
+      m.mergeNodeDataArray(this.props.nodeDataArray);
+      if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
+        m.mergeLinkDataArray(this.props.linkDataArray);
+      }
+    }, isInit ? null : 'merge data');
   }
 
   /** @internal */

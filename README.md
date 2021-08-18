@@ -142,8 +142,8 @@ Specifies a modelData object for the Diagram's model, only necessary when using 
 that will be shared by the model as a whole.
 See [Model.modelData](https://gojs.net/latest/api/symbols/Model.html#modelData).
 
-#### skipsDiagramUpdate (ReactDiagram only)
-Specifies whether the component should skip updating, often set to true when updating state from a GoJS model change.
+#### Optional - skipsDiagramUpdate (ReactDiagram only)
+Specifies whether the component should skip updating, often set to true when updating state originating from a GoJS model change.
 This flag is checked during shouldComponentUpdate. Because GoJS Palettes are read-only by default,
 this prop is not present on ReactPalette.
 
@@ -176,6 +176,42 @@ function handleModelChange(data) {
 
 #### observedDiagram (ReactOverview only)
 Specifies the go.Diagram which the Overview will observe.
+
+### Component Methods
+
+#### getDiagram/getPalette/getOverview
+Gets a reference to the GoJS Diagram/Palette/Overview.
+
+```ts
+const diagram = this.diagramRef.current.getDiagram();
+if (diagram instanceof go.Diagram) {
+  // ...
+}
+```
+
+#### clear (ReactDiagram and ReactPalette only)
+Clears the diagram and allows the next update to be treated as an initial load of the model.
+
+```ts
+// clear out the diagram
+this.diagramRef.current.clear();
+// provide new diagram data, which will be treated as initial data
+this.setState({
+  nodeDataArray: [
+    { key: 'Epsilon', color: 'lightblue' },
+    { key: 'Zeta', color: 'orange' },
+    { key: 'Eta', color: 'lightgreen' },
+    { key: 'Theta', color: 'pink' }
+  ],
+  linkDataArray: [
+    { key: -1, from: 'Epsilon', to: 'Zeta' },
+    { key: -2, from: 'Epsilon', to: 'Eta' },
+    { key: -3, from: 'Zeta', to: 'Zeta' },
+    { key: -4, from: 'Zeta', to: 'Theta' },
+    { key: -5, from: 'Theta', to: 'Epsilon' }
+  ]
+});
+```
 
 ## License
 
