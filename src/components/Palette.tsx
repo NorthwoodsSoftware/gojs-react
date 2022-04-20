@@ -1,5 +1,5 @@
 /*
-*  Copyright (C) 1998-2021 by Northwoods Software Corporation. All Rights Reserved.
+*  Copyright (C) 1998-2022 by Northwoods Software Corporation. All Rights Reserved.
 */
 
 import * as go from 'gojs';
@@ -11,6 +11,7 @@ import * as React from 'react';
 export interface PaletteProps {
   initPalette: () => go.Palette;
   divClassName: string;
+  style?: React.CSSProperties;
   nodeDataArray: Array<go.ObjectData>;
   linkDataArray?: Array<go.ObjectData>;
   modelData?: go.ObjectData;
@@ -84,6 +85,7 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
    * @param nextState
    */
   public shouldComponentUpdate(nextProps: PaletteProps, nextState: any) {
+    if (nextProps.divClassName !== this.props.divClassName || nextProps.style !== this.props.style) return true;
     // quick shallow compare
     if (nextProps.nodeDataArray === this.props.nodeDataArray &&
         nextProps.linkDataArray === this.props.linkDataArray &&
@@ -98,6 +100,10 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
    * @param prevState
    */
   public componentDidUpdate(prevProps: PaletteProps, prevState: any) {
+    // quick shallow compare, maybe it was just a style update
+    if (prevProps.nodeDataArray === this.props.nodeDataArray &&
+        prevProps.linkDataArray === this.props.linkDataArray &&
+        prevProps.modelData === this.props.modelData) return;
     const palette = this.getPalette();
     if (palette !== null) {
       // if clear was just called, treat this as initial
@@ -122,11 +128,11 @@ export class ReactPalette extends React.Component<PaletteProps, {}> {
       if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
         m.mergeLinkDataArray(this.props.linkDataArray);
       }
-    }, isInit ? null : 'merge data');
+    }, isInit ? 'initial merge' : 'merge data');
   }
 
   /** @internal */
   public render() {
-    return (<div ref={this.divRef} className={this.props.divClassName}></div>);
+    return (<div ref={this.divRef} className={this.props.divClassName} style={this.props.style}></div>);
   }
 }

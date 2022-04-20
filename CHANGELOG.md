@@ -1,5 +1,9 @@
 # gojs-react Change Log
 
+## 1.1.1
+- Fixed a regression from 1.1.0 that prevented onModelChange from being called for an initial data merge.
+- Added an optional [style](https://github.com/NorthwoodsSoftware/gojs-react#optional---style) property to allow the rendered div to be styled with CSS properties like borders, backgrounds, etc.
+
 ## 1.1.0
 - [ReactDiagram.skipsDiagramUpdate](https://github.com/NorthwoodsSoftware/gojs-react#optional---skipsdiagramupdate-reactdiagram-only) is now an optional prop.
 We still encourage using it in most cases.

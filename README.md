@@ -1,11 +1,14 @@
 # gojs-react
 
-### By Northwoods Software for [GoJS 2.1](https://gojs.net)
+### By Northwoods Software for [GoJS](https://gojs.net)
 
 This project provides React components for [GoJS](https://gojs.net/latest/index.html) Diagrams, Palettes, and Overviews to simplify usage of GoJS within a React application.
 See the [gojs-react-basic project](https://github.com/NorthwoodsSoftware/gojs-react-basic) for example usage and the
 [Intro page on using GoJS with React](https://gojs.net/latest/intro/react.html) for more information.
 Some more detail on the implementation of these components can be found [here](https://github.com/NorthwoodsSoftware/gojs-react/blob/master/IMPLEMENTATION.md).
+
+[![npm](https://img.shields.io/github/release/NorthwoodsSoftware/gojs-react.svg)](https://www.npmjs.com/package/gojs-react)
+[![open issues](https://img.shields.io/github/issues-raw/NorthwoodsSoftware/gojs-react.svg)](https://github.com/NorthwoodsSoftware/gojs-react/issues)
 
 ## Installation
 
@@ -34,6 +37,7 @@ If you'd like to do so, we suggest reading more about the implementation of thes
 <ReactDiagram
   ref={this.diagramRef}
   divClassName='diagram-component'
+  style={{ backgroundColor: '#eee' }}
   initDiagram={this.initDiagram}
   nodeDataArray={this.props.nodeDataArray}
   linkDataArray={this.props.linkDataArray}
@@ -45,12 +49,14 @@ If you'd like to do so, we suggest reading more about the implementation of thes
 <ReactPalette
   initPalette={this.initPalette}
   divClassName='palette-component'
+  style={{ backgroundColor: '#eee' }}
   nodeDataArray={[{ key: 0, text: 'Alpha' }]}
 />
 
 <ReactOverview
   initOverview={this.initOverview}
   divClassName='overview-component'
+  style={{ backgroundColor: '#eee' }}
   observedDiagram={this.state.observed}
 />
 ```
@@ -104,6 +110,13 @@ This should usually specify a width/height.
   height: 400px;
   border: 1px solid black;
 }
+```
+
+#### Optional - style
+Specifies the style object to add to the rendered div. Uses React.CSSProperties. Using divClassName is preferred.
+
+```js
+style: { backgroundColor: '#333' }
 ```
 
 #### nodeDataArray (ReactDiagram and ReactPalette only)
@@ -218,4 +231,4 @@ this.setState({
 This project is intended to be used alongside [GoJS](https://gojs.net/latest/index.html),
 and is covered by the GoJS <a href="https://gojs.net/latest/license.html">software license</a>.
 
-Copyright 1998-2021 by Northwoods Software Corporation.
+Copyright 1998-2022 by Northwoods Software Corporation.

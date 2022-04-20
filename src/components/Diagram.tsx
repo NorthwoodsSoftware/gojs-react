@@ -1,5 +1,5 @@
 /*
-*  Copyright (C) 1998-2021 by Northwoods Software Corporation. All Rights Reserved.
+*  Copyright (C) 1998-2022 by Northwoods Software Corporation. All Rights Reserved.
 */
 
 import * as go from 'gojs';
@@ -11,6 +11,7 @@ import * as React from 'react';
 export interface DiagramProps {
   initDiagram: () => go.Diagram;
   divClassName: string;
+  style?: React.CSSProperties;
   nodeDataArray: Array<go.ObjectData>;
   linkDataArray?: Array<go.ObjectData>;
   modelData?: go.ObjectData;
@@ -102,6 +103,7 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
    * @param nextState
    */
   public shouldComponentUpdate(nextProps: DiagramProps, nextState: any) {
+    if (nextProps.divClassName !== this.props.divClassName || nextProps.style !== this.props.style) return true;
     if (nextProps.skipsDiagramUpdate) return false;
     // quick shallow compare
     if (nextProps.nodeDataArray === this.props.nodeDataArray &&
@@ -117,6 +119,10 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
    * @param prevState
    */
   public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
+    // quick shallow compare, maybe it was just a style update
+    if (prevProps.nodeDataArray === this.props.nodeDataArray &&
+        prevProps.linkDataArray === this.props.linkDataArray &&
+        prevProps.modelData === this.props.modelData) return;
     const diagram = this.getDiagram();
     if (diagram !== null) {
       // if clear was just called, treat this as initial
@@ -141,11 +147,11 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
       if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
         m.mergeLinkDataArray(this.props.linkDataArray);
       }
-    }, isInit ? null : 'merge data');
+    }, isInit ? 'initial merge' : 'merge data');
   }
 
   /** @internal */
   public render() {
-    return (<div ref={this.divRef} className={this.props.divClassName}></div>);
+    return (<div ref={this.divRef} className={this.props.divClassName} style={this.props.style}></div>);
   }
 }

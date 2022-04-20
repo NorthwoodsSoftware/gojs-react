@@ -1,5 +1,5 @@
 /*
-*  Copyright (C) 1998-2021 by Northwoods Software Corporation. All Rights Reserved.
+*  Copyright (C) 1998-2022 by Northwoods Software Corporation. All Rights Reserved.
 */
 
 import * as go from 'gojs';
@@ -11,6 +11,7 @@ import * as React from 'react';
 export interface OverviewProps {
   initOverview?: () => go.Overview;
   divClassName: string;
+  style?: React.CSSProperties;
   observedDiagram: go.Diagram | null;
 }
 
@@ -72,6 +73,7 @@ export class ReactOverview extends React.Component<OverviewProps, {}> {
    * @param nextState
    */
   public shouldComponentUpdate(nextProps: OverviewProps, nextState: any) {
+    if (nextProps.divClassName !== this.props.divClassName || nextProps.style !== this.props.style) return true;
     if (nextProps.observedDiagram === this.props.observedDiagram) return false;
     return true;
   }
@@ -83,6 +85,8 @@ export class ReactOverview extends React.Component<OverviewProps, {}> {
    * @param prevState
    */
   public componentDidUpdate(prevProps: OverviewProps, prevState: any) {
+    // quick shallow compare, maybe it was just a style update
+    if (prevProps.observedDiagram === this.props.observedDiagram) return;
     const overview = this.getOverview();
     if (overview !== null) {
       overview.observed = this.props.observedDiagram;
@@ -91,6 +95,6 @@ export class ReactOverview extends React.Component<OverviewProps, {}> {
 
   /** @internal */
   public render() {
-    return (<div ref={this.divRef} className={this.props.divClassName}></div>);
+    return (<div ref={this.divRef} className={this.props.divClassName} style={this.props.style}></div>);
   }
 }

@@ -62,6 +62,10 @@ The componentDidUpdate method calls mergeData where any changes to React state a
  * @param prevState
  */
 public componentDidUpdate(prevProps: DiagramProps, prevState: any) {
+  // quick shallow compare, maybe it was just a style update
+  if (prevProps.nodeDataArray === this.props.nodeDataArray &&
+      prevProps.linkDataArray === this.props.linkDataArray &&
+      prevProps.modelData === this.props.modelData) return;
   const diagram = this.getDiagram();
   if (diagram !== null) {
     // if clear was just called, treat this as initial
@@ -89,6 +93,7 @@ Because GoJS Palettes are read-only by default, the skipsDiagramUpdate check is 
  * @param nextState
  */
 public shouldComponentUpdate(nextProps: DiagramProps, nextState: any) {
+  if (nextProps.divClassName !== this.props.divClassName || nextProps.style !== this.props.style) return true;
   if (nextProps.skipsDiagramUpdate) return false;
   // quick shallow compare
   if (nextProps.nodeDataArray === this.props.nodeDataArray &&
@@ -112,7 +117,7 @@ private mergeData(diagram: go.Diagram, isInit: boolean) {
     if (this.props.linkDataArray !== undefined && m instanceof go.GraphLinksModel) {
       m.mergeLinkDataArray(this.props.linkDataArray);
     }
-  }, isInit ? null : 'merge data');
+  }, isInit ? 'initial merge' : 'merge data');
 }
 ```
 
