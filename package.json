@@ -1,6 +1,6 @@
 {
   "name": "gojs-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A set of React components to manage GoJS Diagrams, Palettes, and Overviews",
   "main": "lib/index.js",
   "module": "lib/esm/gojsreact.js",
