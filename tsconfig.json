@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "importHelpers": true,
     "declaration": true,
-    "declarationDir": "lib/types",
+    "declarationDir": "types",
     "removeComments": true,
     "jsx": "react",
     "strict": true,
