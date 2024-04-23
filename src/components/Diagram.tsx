@@ -1,6 +1,4 @@
-/*
-*  Copyright (C) 1998-2023 by Northwoods Software Corporation. All Rights Reserved.
-*/
+/*! Copyright (C) 1998-2024 by Northwoods Software Corporation. All Rights Reserved. */
 
 import * as go from 'gojs';
 import * as React from 'react';
@@ -137,6 +135,12 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     }
   }
 
+  /**
+   * @internal
+   * Merge data props into the diagram model.
+   * @param diagram
+   * @param isInit
+   */
   private mergeData(diagram: go.Diagram, isInit: boolean) {
     const model = diagram.model;
     model.commit((m: go.Model) => {

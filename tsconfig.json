@@ -1,18 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "declaration": true,
-    "declarationDir": "types",
-    "removeComments": true,
+    "lib": ["es6", "dom"],
     "jsx": "react",
     "strict": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
-    "lib": ["es6", "dom"],
     "stripInternal": true
   },
   "include": [

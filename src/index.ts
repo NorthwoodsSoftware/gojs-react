@@ -1,6 +1,4 @@
-/*
-*  Copyright (C) 1998-2 by Northwoods Software Corporation. All Rights Reserved.
-*/
+/*! Copyright (C) 1998-2024 by Northwoods Software Corporation. All Rights Reserved. */
 
 export * from './components/Diagram';
 export * from './components/Overview';

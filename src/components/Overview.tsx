@@ -1,6 +1,4 @@
-/*
-*  Copyright (C) 1998-2023 by Northwoods Software Corporation. All Rights Reserved.
-*/
+/*! Copyright (C) 1998-2024 by Northwoods Software Corporation. All Rights Reserved. */
 
 import * as go from 'gojs';
 import * as React from 'react';
