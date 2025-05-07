@@ -1,5 +1,5 @@
 /*
-*  Copyright (C) 1998-2023 by Northwoods Software Corporation. All Rights Reserved.
+*  Copyright (C) 1998-2025 by Northwoods Software Corporation. All Rights Reserved.
 */
 
 import * as go from 'gojs';
@@ -16,7 +16,7 @@ export interface DiagramProps {
   linkDataArray?: Array<go.ObjectData>;
   modelData?: go.ObjectData;
   skipsDiagramUpdate?: boolean;
-  onModelChange?: (e: go.IncrementalData) => void;
+  onModelChange?: (idata: go.IncrementalData, e: go.ChangedEvent) => void;
 }
 
 /**
@@ -71,7 +71,7 @@ export class ReactDiagram extends React.Component<DiagramProps, {}> {
     this.modelChangedListener = (e: go.ChangedEvent) => {
       if (e.isTransactionFinished && e.model && !e.model.isReadOnly && this.props.onModelChange) {
         const dataChanges = e.model.toIncrementalData(e);
-        if (dataChanges !== null) this.props.onModelChange(dataChanges);
+        if (dataChanges !== null) this.props.onModelChange(dataChanges, e);
       }
     };
     diagram.addModelChangedListener(this.modelChangedListener);

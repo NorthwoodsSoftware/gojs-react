@@ -23,7 +23,7 @@ npm install --save gojs-react
 ### CDN
 
 ```html
-<script src="https://unpkg.com/gojs-react/dist/gojsreact.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gojs-react/dist/gojsreact.production.min.js"></script>
 ```
 
 ## Usage
@@ -163,6 +163,8 @@ this prop is not present on ReactPalette.
 #### Optional - onModelChange (ReactDiagram only)
 Specifies a function to be called when a GoJS transaction has completed.
 This function will typically be responsible for updating React/Redux state.
+The first argument will be the result of calling Model.toIncrementalData, summarizing the changes made in the transaction.
+The second argument will be the Transaction ChangedEvent; use its ChangedEvent.oldValue to get the transaction name.
 
 It is important that state updates made in this function include setting skipsDiagramUpdate to true since
 the changes are known by GoJS. It will fire even when a GoJS change originated from a state update, as there
@@ -231,4 +233,4 @@ this.setState({
 This project is intended to be used alongside [GoJS](https://gojs.net/latest/index.html),
 and is covered by the GoJS <a href="https://gojs.net/latest/license.html">software license</a>.
 
-Copyright 1998-2023 by Northwoods Software Corporation.
+Copyright 1998-2025 by Northwoods Software Corporation.

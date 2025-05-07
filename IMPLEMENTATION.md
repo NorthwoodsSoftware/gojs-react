@@ -30,7 +30,7 @@ public componentDidMount() {
   this.modelChangedListener = (e: go.ChangedEvent) => {
     if (e.isTransactionFinished && e.model && !e.model.isReadOnly && this.props.onModelChange) {
       const dataChanges = e.model.toIncrementalData(e);
-      if (dataChanges !== null) this.props.onModelChange(dataChanges);
+      if (dataChanges !== null) this.props.onModelChange(dataChanges, e);
     }
   };
   diagram.addModelChangedListener(this.modelChangedListener);

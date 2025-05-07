@@ -1,7 +1,7 @@
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 
-const copyright = '/*! Copyright (C) 1998-2023 by Northwoods Software Corporation. All Rights Reserved. */';
+const copyright = '/*! Copyright (C) 1998-2025 by Northwoods Software Corporation. All Rights Reserved. */';
 const prodOpts = {
   input: 'src/index.ts',
   plugins: [

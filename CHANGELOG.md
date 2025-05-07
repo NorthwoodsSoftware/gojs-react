@@ -1,5 +1,8 @@
 # gojs-react Change Log
 
+## 1.1.3
+- Added ChangedEvent argument to onModelChange event handler.
+
 ## 1.1.2
 - Updated dependencies and copyright date.
 
